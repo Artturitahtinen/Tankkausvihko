@@ -1,62 +1,46 @@
-import { StyleSheet, View } from 'react-native'
-import { Chip } from 'react-native-paper'
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
+import { StyleSheet, View, Text, FlatList } from 'react-native'
+import { List } from 'react-native-paper'
 
 export default function FuelStatistics() {
     return (
         <View style={styles.container}>
-            <Chip
-                selected
-                showSelectedOverlay
-                onPress={() => {}}
-                style={styles.chip}
-            >
-                2021
-            </Chip>
-            <Chip
-                selected
-                showSelectedOverlay
-                onPress={() => {}}
-                style={styles.chip}
-            >
-                2022
-            </Chip>
-            <Chip
-                selected
-                showSelectedOverlay
-                onPress={() => {}}
-                style={styles.chip}
-            >
-                2023
-            </Chip>
-            <Chip
-                selected
-                showSelectedOverlay
-                onPress={() => {}}
-                style={styles.chip}
-            >
-                2024
-            </Chip>
-            <Chip
-                selected
-                showSelectedOverlay
-                onPress={() => {}}
-                style={styles.chip}
-            >
-                2025
-            </Chip>
+            <List.AccordionGroup>
+                <List.Accordion
+                    style={styles.accordion}
+                    left={() => <FontAwesome6 name="gas-pump" size={24} />}
+                    title="2025"
+                    id="3"
+                >
+                    <FlatList
+                        horizontal
+                        data={[1, 2, 3]}
+                        renderItem={({ item }) => (
+                            <List.Item title={`Item ${item}`} />
+                        )}
+                        keyExtractor={(item) => item.toString()}
+                    />
+                    <FlatList
+                        horizontal
+                        data={[1, 2, 3]}
+                        renderItem={({ item }) => (
+                            <List.Item title={`Item ${item}`} />
+                        )}
+                        keyExtractor={(item) => item.toString()}
+                    />
+                </List.Accordion>
+            </List.AccordionGroup>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        margin: 20,
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flex: 1,
+        marginVertical: 20,
+        marginLeft: 20,
     },
-    chip: {
-        margin: 4,
+    accordion: {
+        paddingLeft: 20,
     },
 })
