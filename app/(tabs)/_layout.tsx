@@ -18,7 +18,7 @@ export default () => {
             <Tabs.Screen
                 name={'add-fuel-statistic'}
                 options={{
-                    title: 'add',
+                    title: 'Lisää tankkaus',
                     tabBarIcon: () => <Ionicons name="add" size={32} />,
                     headerShown: false,
                 }}
