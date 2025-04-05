@@ -142,15 +142,4 @@ const styles = StyleSheet.create({
     tableCell: {
         width: 100,
     },
-    tableTitle: {
-        width: 100,
-    },
-    tableRow: {
-        flex: 1,
-        width: '100%',
-        height: 50,
-    },
-    tableCell: {
-        width: 100,
-    },
 })
