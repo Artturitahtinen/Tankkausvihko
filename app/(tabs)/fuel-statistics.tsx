@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View, Text } from 'react-native'
 import { DataTable } from 'react-native-paper'
 import { formatToUIDate } from '../utils/helpers'
 import { FuelStatistic } from '../utils/types'
@@ -55,8 +55,9 @@ export default function FuelStatistics() {
         <View style={styles.container}>
             <DataTable>
                 <ScrollView
-                    horizontal
+                    showsHorizontalScrollIndicator={true}
                     contentContainerStyle={{ flexDirection: 'column' }}
+                    horizontal
                 >
                     <DataTable.Header>
                         <DataTable.Title style={styles.tableTitle}>
@@ -81,7 +82,6 @@ export default function FuelStatistics() {
                             €/l
                         </DataTable.Title>
                     </DataTable.Header>
-
                     {fuelStatistics.map((statistic, index, statistics) => (
                         <DataTable.Row
                             style={styles.tableRow}
@@ -97,23 +97,23 @@ export default function FuelStatistics() {
                                 {statistic.fuelAmount}
                             </DataTable.Cell>
                             {
-                                <DataTable.Title style={styles.tableCell}>
+                                <DataTable.Cell style={styles.tableCell}>
                                     {isFirstStatistic(index)
                                         ? '-'
                                         : getKilometresFromPreviousStatistic(
                                               statistic,
                                               statistics[index - 1]
                                           )}
-                                </DataTable.Title>
+                                </DataTable.Cell>
                             }
-                            <DataTable.Title style={styles.tableCell}>
+                            <DataTable.Cell style={styles.tableCell}>
                                 {isFirstStatistic(index)
                                     ? '-'
                                     : getLitresPer100kmFromPreviousStatistic(
                                           statistic,
                                           statistics[index - 1]
                                       )}
-                            </DataTable.Title>
+                            </DataTable.Cell>
                             <DataTable.Cell style={styles.tableCell}>
                                 {statistic.place}
                             </DataTable.Cell>
@@ -130,18 +130,12 @@ export default function FuelStatistics() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         marginVertical: 20,
-        marginLeft: 20,
-    },
-    accordion: {
-        paddingLeft: 20,
     },
     tableTitle: {
         width: 100,
     },
     tableRow: {
-        flex: 1,
         width: '100%',
         height: 50,
     },

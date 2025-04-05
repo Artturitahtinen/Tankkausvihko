@@ -10,7 +10,7 @@ export default () => {
                 options={{
                     title: 'Tankkaukset',
                     tabBarIcon: () => (
-                        <FontAwesome6 name="gas-pump" size={24} />
+                        <FontAwesome6 name='gas-pump' size={24} />
                     ),
                     headerShown: false,
                 }}
@@ -19,7 +19,7 @@ export default () => {
                 name={'add-fuel-statistic'}
                 options={{
                     title: 'Lisää tankkaus',
-                    tabBarIcon: () => <Ionicons name="add" size={32} />,
+                    tabBarIcon: () => <Ionicons name='add' size={32} />,
                     headerShown: false,
                 }}
             />
