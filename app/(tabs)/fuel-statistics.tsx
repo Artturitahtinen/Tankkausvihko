@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ScrollView, StyleSheet, View, Text } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { DataTable } from 'react-native-paper'
 import { formatToUIDate } from '../utils/helpers'
 import { FuelStatistic } from '../utils/types'
@@ -136,6 +136,17 @@ const styles = StyleSheet.create({
         width: 100,
     },
     tableRow: {
+        width: '100%',
+        height: 50,
+    },
+    tableCell: {
+        width: 100,
+    },
+    tableTitle: {
+        width: 100,
+    },
+    tableRow: {
+        flex: 1,
         width: '100%',
         height: 50,
     },
