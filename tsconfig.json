@@ -5,10 +5,11 @@
     "jsx": "react-native",
     "checkJs": true,
     "strict": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["*",],
+      "@/utils/*": ["utils/*"],
+      "@/validation/*": ["validation/*"]
     }
   },
   "include": [

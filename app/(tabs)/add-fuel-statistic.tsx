@@ -1,24 +1,39 @@
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { StyleSheet, ScrollView, Text, View } from 'react-native'
 import React from 'react'
-import { useForm, Controller } from 'react-hook-form'
-import { FuelStatistic } from '../utils/types'
+import {
+    useForm,
+    Controller,
+    SubmitErrorHandler,
+    SubmitHandler,
+} from 'react-hook-form'
 import { DatePickerInput } from 'react-native-paper-dates'
 import { Temporal } from '@js-temporal/polyfill'
 import { Appbar, Button, TextInput } from 'react-native-paper'
+import { FuelStatistic } from '@/utils/types'
+import { fuelStatisticValidationSchema } from '@/validation/fuel-statistic-form-validation'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { TextInputWithError } from '@/components/text-input-with-error'
+import { getDate } from '@/utils/date'
 
 export default function AddFuelStatistic() {
-    const { control, handleSubmit } = useForm<FuelStatistic>({
+    const { control, handleSubmit, formState } = useForm<FuelStatistic>({
         defaultValues: {
-            date: '',
+            date: new Date().toString(),
             fuelAmount: undefined,
             odometerReading: undefined,
             price: undefined,
             place: '',
         },
+        resolver: yupResolver(fuelStatisticValidationSchema),
     })
 
-    const getDate = (date?: string): Date =>
-        date ? new Date(date) : new Date(Temporal.Now.instant().toString())
+    const onSubmit: SubmitHandler<FuelStatistic> = (data) =>
+        console.log({ data })
+
+    const onError: SubmitErrorHandler<FuelStatistic> = (errors, e) => {
+        console.log(control._formValues)
+        return console.log(errors)
+    }
 
     return (
         <>
@@ -29,82 +44,100 @@ export default function AddFuelStatistic() {
                 contentContainerStyle={{
                     marginTop: 30,
                     marginHorizontal: 20,
+                    paddingBottom: 50,
+                    rowGap: 30,
                     alignItems: 'center',
                     justifyContent: 'space-evenly',
-                    rowGap: 30,
                 }}
             >
                 <Controller
                     name='date'
                     control={control}
-                    render={({ field }) => (
-                        <DatePickerInput
-                            label='Päivämäärä'
-                            locale='fi'
-                            inputMode='start'
-                            withDateFormatInLabel={false}
-                            onChange={field.onChange}
-                            value={getDate(field.value)}
-                            startWeekOnMonday
-                        />
+                    render={({ field, fieldState }) => (
+                        <View style={styles.input}>
+                            <DatePickerInput
+                                error={!!fieldState.error?.message}
+                                label='Päivämäärä'
+                                locale='fi'
+                                inputMode='start'
+                                withDateFormatInLabel={false}
+                                onChange={field.onChange}
+                                onChangeText={field.onChange}
+                                value={getDate(field.value)}
+                                startYear={2000}
+                                endYear={Temporal.Now.plainDateISO().year}
+                                startWeekOnMonday
+                            />
+                            <Text style={styles.error}>
+                                {fieldState.error?.message || ''}
+                            </Text>
+                        </View>
                     )}
                 />
                 <Controller
                     name='fuelAmount'
                     control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            label='Tankattu määrä (l)'
-                            keyboardType='numeric'
-                            value={field.value?.toString() || ''}
-                            onChangeText={(value) => field.onChange}
-                            style={styles.input}
-                        />
+                    render={({ field, fieldState }) => (
+                        <View style={styles.input}>
+                            <TextInputWithError
+                                label='Tankattu määrä (l)'
+                                keyboardType='numeric'
+                                value={field.value?.toString() || ''}
+                                onChange={field.onChange}
+                                fieldState={fieldState}
+                            />
+                        </View>
                     )}
                 />
                 <Controller
                     name='price'
                     control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            label='Kokonaishinta (€)'
-                            keyboardType='numeric'
-                            value={field.value?.toString() || ''}
-                            onChangeText={(value) => field.onChange}
-                            style={styles.input}
-                        />
+                    render={({ field, fieldState }) => (
+                        <View style={styles.input}>
+                            <TextInputWithError
+                                label='Kokonaishinta (€)'
+                                keyboardType='numeric'
+                                value={field.value?.toString() || ''}
+                                onChange={field.onChange}
+                                fieldState={fieldState}
+                            />
+                        </View>
                     )}
                 />
                 <Controller
                     name='odometerReading'
                     control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            label='Mittarilukema (km)'
-                            keyboardType='numeric'
-                            value={field.value?.toString() || ''}
-                            onChangeText={(value) => field.onChange}
-                            style={styles.input}
-                        />
+                    render={({ field, fieldState }) => (
+                        <View style={styles.input}>
+                            <TextInputWithError
+                                label='Mittarilukema (km)'
+                                keyboardType='numeric'
+                                value={field.value?.toString() || ''}
+                                onChange={field.onChange}
+                                fieldState={fieldState}
+                            />
+                        </View>
                     )}
                 />
+
                 <Controller
                     name='place'
                     control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            label='Paikka'
-                            value={field.value}
-                            onChangeText={(value) => field.onChange}
-                            style={styles.input}
-                        />
+                    render={({ field, fieldState }) => (
+                        <View style={styles.input}>
+                            <TextInputWithError
+                                label='Paikka'
+                                value={field.value}
+                                onChange={field.onChange}
+                                fieldState={fieldState}
+                            />
+                        </View>
                     )}
                 />
+
                 <Button
                     mode='contained'
-                    onPress={handleSubmit((data) => {
-                        console.log(data)
-                    })}
+                    onPress={handleSubmit(onSubmit, onError)}
                 >
                     Tallenna
                 </Button>
@@ -116,5 +149,9 @@ export default function AddFuelStatistic() {
 const styles = StyleSheet.create({
     input: {
         width: '100%',
+    },
+    error: {
+        marginTop: 10,
+        color: 'red',
     },
 })
