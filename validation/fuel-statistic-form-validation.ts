@@ -7,14 +7,20 @@ import {
 import { FuelStatistic } from '../utils/types';
 
 export const fuelStatisticValidationSchema : ObjectSchema<FuelStatistic> = object({
-    id: number().required('ID on pakollinen'),
+    id: string().optional(),
+    personId: string().required('Henkilö ID on pakollinen'),
     date: string().required('Päivämäärä on pakollinen'),
-    fuelAmount: number().positive('Tankatun määrän tulee olla positiivinen')
+    fuelAmount: number()
+        .typeError("Tankatun määrän tulee olla luku")
+        .positive('Tankatun määrän tulee olla positiivinen luku')
         .required('Tankattu määrä on pakollinen'),
-    odometerReading: number().positive('Mittarin luvun tulee olla positiivinen')
-        .required('Mittarin luku on pakollinen'),
-    price: number().positive('Hinnan tulee olla positiivinen')
+    odometerReading: number()
+        .typeError("Mittarilukema tulee olla luku")
+        .positive('Mittarilukema tulee olla positiivinen luku')
+        .required('Mittarilukema on pakollinen'),
+    price: number()
+        .typeError("Hinnan tulee tulee olla luku")
+        .positive('Hinnan tulee olla positiivinen luku')
         .required('Hinta on pakollinen'),
     place: string().required('Paikka on pakollinen'),
 });
-

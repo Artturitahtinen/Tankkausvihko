@@ -7,7 +7,8 @@ import { FuelStatistic } from '@/utils/types'
 export default function FuelStatistics() {
     const [fuelStatistics, setFuelStatistics] = useState<FuelStatistic[]>([
         {
-            id: 1,
+            id: '1',
+            personId: '1',
             place: 'Teboil Express',
             date: '2023-05-02',
             fuelAmount: 38.38,
@@ -15,7 +16,8 @@ export default function FuelStatistics() {
             price: 74,
         },
         {
-            id: 2,
+            id: '2',
+            personId: '2',
             place: 'ABC Itäharju',
             date: '2023-06-05',
             fuelAmount: 35.7,
@@ -96,16 +98,14 @@ export default function FuelStatistics() {
                             <DataTable.Cell style={styles.tableCell}>
                                 {statistic.fuelAmount}
                             </DataTable.Cell>
-                            {
-                                <DataTable.Cell style={styles.tableCell}>
-                                    {isFirstStatistic(index)
-                                        ? '-'
-                                        : getKilometresFromPreviousStatistic(
-                                              statistic,
-                                              statistics[index - 1]
-                                          )}
-                                </DataTable.Cell>
-                            }
+                            <DataTable.Cell style={styles.tableCell}>
+                                {isFirstStatistic(index)
+                                    ? '-'
+                                    : getKilometresFromPreviousStatistic(
+                                          statistic,
+                                          statistics[index - 1]
+                                      )}
+                            </DataTable.Cell>
                             <DataTable.Cell style={styles.tableCell}>
                                 {isFirstStatistic(index)
                                     ? '-'

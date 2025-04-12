@@ -16,7 +16,7 @@ import { TextInputWithError } from '@/components/text-input-with-error'
 import { getDate } from '@/utils/date'
 
 export default function AddFuelStatistic() {
-    const { control, handleSubmit, formState } = useForm<FuelStatistic>({
+    const form = useForm<FuelStatistic>({
         defaultValues: {
             date: new Date().toString(),
             fuelAmount: undefined,
@@ -27,11 +27,13 @@ export default function AddFuelStatistic() {
         resolver: yupResolver(fuelStatisticValidationSchema),
     })
 
+    const { handleSubmit } = form
+
     const onSubmit: SubmitHandler<FuelStatistic> = (data) =>
         console.log({ data })
 
     const onError: SubmitErrorHandler<FuelStatistic> = (errors, e) => {
-        console.log(control._formValues)
+        console.log(form.control._formValues)
         return console.log(errors)
     }
 
@@ -52,7 +54,7 @@ export default function AddFuelStatistic() {
             >
                 <Controller
                     name='date'
-                    control={control}
+                    control={form.control}
                     render={({ field, fieldState }) => (
                         <View style={styles.input}>
                             <DatePickerInput
@@ -76,7 +78,7 @@ export default function AddFuelStatistic() {
                 />
                 <Controller
                     name='fuelAmount'
-                    control={control}
+                    control={form.control}
                     render={({ field, fieldState }) => (
                         <View style={styles.input}>
                             <TextInputWithError
@@ -91,7 +93,7 @@ export default function AddFuelStatistic() {
                 />
                 <Controller
                     name='price'
-                    control={control}
+                    control={form.control}
                     render={({ field, fieldState }) => (
                         <View style={styles.input}>
                             <TextInputWithError
@@ -106,7 +108,7 @@ export default function AddFuelStatistic() {
                 />
                 <Controller
                     name='odometerReading'
-                    control={control}
+                    control={form.control}
                     render={({ field, fieldState }) => (
                         <View style={styles.input}>
                             <TextInputWithError
@@ -122,7 +124,7 @@ export default function AddFuelStatistic() {
 
                 <Controller
                     name='place'
-                    control={control}
+                    control={form.control}
                     render={({ field, fieldState }) => (
                         <View style={styles.input}>
                             <TextInputWithError
@@ -134,13 +136,17 @@ export default function AddFuelStatistic() {
                         </View>
                     )}
                 />
-
-                <Button
-                    mode='contained'
-                    onPress={handleSubmit(onSubmit, onError)}
-                >
-                    Tallenna
-                </Button>
+                <View style={styles.actionButtons}>
+                    <Button
+                        mode='contained'
+                        onPress={handleSubmit(onSubmit, onError)}
+                    >
+                        Tallenna
+                    </Button>
+                    <Button mode='contained' onPress={() => form.reset()}>
+                        Tyhjennä kentät
+                    </Button>
+                </View>
             </ScrollView>
         </>
     )
@@ -153,5 +159,9 @@ const styles = StyleSheet.create({
     error: {
         marginTop: 10,
         color: 'red',
+    },
+    actionButtons: {
+        flexDirection: 'row',
+        columnGap: 20,
     },
 })

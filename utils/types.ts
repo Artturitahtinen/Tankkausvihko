@@ -1,5 +1,6 @@
 export type FuelStatistic = {
-    id: number
+    id?: string
+    personId: string
     place?: string
     date?: string
     fuelAmount: number
