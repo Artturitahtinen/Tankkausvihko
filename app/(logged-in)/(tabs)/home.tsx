@@ -1,8 +1,8 @@
+import { formatToUIDate } from '@/utils/date'
+import { FuelStatistic } from '@/utils/types'
 import { useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { DataTable } from 'react-native-paper'
-import { formatToUIDate } from '@/utils/date'
-import { FuelStatistic } from '@/utils/types'
 
 export default function FuelStatistics() {
     const [fuelStatistics, setFuelStatistics] = useState<FuelStatistic[]>([

@@ -1,19 +1,19 @@
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
+import { TextInputWithError } from '@/components/input/text-input-with-error'
+import { getDate } from '@/utils/date'
+import { FuelStatistic } from '@/utils/types'
+import { fuelStatisticValidationSchema } from '@/validation/validation-schemas'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Temporal } from '@js-temporal/polyfill'
 import React from 'react'
 import {
-    useForm,
     Controller,
     SubmitErrorHandler,
     SubmitHandler,
+    useForm,
 } from 'react-hook-form'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Appbar, Button } from 'react-native-paper'
 import { DatePickerInput } from 'react-native-paper-dates'
-import { Temporal } from '@js-temporal/polyfill'
-import { Appbar, Button, TextInput } from 'react-native-paper'
-import { FuelStatistic } from '@/utils/types'
-import { fuelStatisticValidationSchema } from '@/validation/fuel-statistic-form-validation'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { TextInputWithError } from '@/components/text-input-with-error'
-import { getDate } from '@/utils/date'
 
 export default function AddFuelStatistic() {
     const form = useForm<FuelStatistic>({
