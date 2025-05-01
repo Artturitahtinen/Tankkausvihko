@@ -97,6 +97,7 @@ export default function Register() {
                         )}
                     />
                     <Button
+                        style={styles.readyBtn}
                         mode='contained'
                         onPress={form.handleSubmit(onSubmit)}
                         loading={isLoading}
@@ -137,5 +138,8 @@ export const styles = StyleSheet.create({
     },
     inputs: {
         width: '100%',
+    },
+    readyBtn: {
+        marginTop: 20,
     },
 })
