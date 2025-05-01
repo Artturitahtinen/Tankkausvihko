@@ -9,7 +9,10 @@
     "paths": {
       "@/*": ["*",],
       "@/utils/*": ["utils/*"],
-      "@/validation/*": ["validation/*"]
+      "@/validation/*": ["validation/*"],
+      "@/styles/*": ["styles/*"],
+      "@/context/*": ["context/*"],
+      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
     }
   },
   "include": [
@@ -17,5 +20,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "firebaseConfig.js"  ]
 }

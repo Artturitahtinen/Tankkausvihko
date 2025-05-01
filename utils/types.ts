@@ -7,3 +7,11 @@ export type FuelStatistic = {
     odometerReading: number
     price: number
 }
+export type RegisterForm = AuthenticationForm
+
+export type LoginForm = AuthenticationForm
+
+type AuthenticationForm = {
+    email: string
+    password: string
+}
