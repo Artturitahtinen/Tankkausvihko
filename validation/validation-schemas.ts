@@ -1,10 +1,9 @@
 import {
-    string,
     number,
     object,
     ObjectSchema,
-    InferType,
-  } from 'yup';
+    string,
+} from 'yup';
 import { FuelStatistic, RegisterForm } from '../utils/types';
 
 export const fuelStatisticValidationSchema : ObjectSchema<FuelStatistic> = object({
