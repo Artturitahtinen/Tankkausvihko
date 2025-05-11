@@ -12,7 +12,8 @@
       "@/validation/*": ["validation/*"],
       "@/styles/*": ["styles/*"],
       "@/context/*": ["context/*"],
-      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
+      "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"],
+      "@/services": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"]
     }
   },
   "include": [

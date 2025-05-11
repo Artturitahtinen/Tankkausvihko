@@ -1,22 +1,10 @@
-import { auth } from '@/firebaseConfig'
+import { useSessionProvider } from '@/context/session-provider'
 import { Stack, useRouter } from 'expo-router'
-import { User } from 'firebase/auth'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 export default function AuthLayout() {
-    const [user, setUser] = useState<User | null>(null)
-    const [isLoading, setIsLoading] = useState(true)
     const router = useRouter()
-
-    const initializeAuthListener = () => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            setUser(user)
-            if (isLoading) {
-                setIsLoading(false)
-            }
-        })
-        return unsubscribe
-    }
+    const { user, isLoading } = useSessionProvider()
 
     const handleUnauthenticatedRedirect = () => {
         if (!isLoading && user === null) {
@@ -24,12 +12,17 @@ export default function AuthLayout() {
         }
     }
 
-    useEffect(initializeAuthListener, [])
     useEffect(handleUnauthenticatedRedirect, [isLoading, user])
 
     if (isLoading) {
         return null
     }
 
-    return <Stack />
+    return (
+        <Stack
+            screenOptions={{
+                headerShown: false,
+            }}
+        />
+    )
 }

@@ -1,5 +1,6 @@
 import React, { createContext, ReactNode, useContext, useState } from 'react'
-import { Snackbar } from 'react-native-paper'
+import { View } from 'react-native'
+import { Icon, Snackbar, Text } from 'react-native-paper'
 
 type Variant = 'success' | 'danger'
 
@@ -11,40 +12,38 @@ type VariantOptions = {
 }
 
 type SnackbarContextType = {
-    showSnackbar: (
-        message: string,
-        variant: Variant | undefined,
-        duration: number
-    ) => void
+    showSnackbar: (message: string, variant: Variant, duration?: number) => void
 }
 
 export const SnackbarContext = createContext<SnackbarContextType | undefined>(
     undefined
 )
 
+const DEFAULT_DURATION = 3000
+
 export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
     const [snackbar, setSnackbar] = useState({
         visible: false,
         message: '',
-        duration: 3000,
-        variant: undefined as Variant | undefined,
+        duration: DEFAULT_DURATION,
+        variant: 'success' as Variant,
     })
 
     const variantOptions: VariantOptions = {
         success: {
             color: 'green',
-            icon: '✅',
+            icon: 'check-circle',
         },
         danger: {
-            color: 'red',
-            icon: '❌',
+            color: '#ef5350',
+            icon: 'alert-circle',
         },
     }
 
     const showSnackbar = (
         message: string,
-        variant: Variant | undefined,
-        duration: number
+        variant: Variant,
+        duration: number = DEFAULT_DURATION
     ) => {
         setSnackbar({
             visible: true,
@@ -67,9 +66,9 @@ export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
             <Snackbar
                 wrapperStyle={{ top: 0 }}
                 style={{
-                    backgroundColor: snackbar.variant
-                        ? variantOptions[snackbar.variant].color
-                        : undefined,
+                    backgroundColor:
+                        variantOptions[snackbar.variant as keyof VariantOptions]
+                            .color,
                 }}
                 visible={snackbar.visible}
                 onDismiss={hideSnackbar}
@@ -79,11 +78,13 @@ export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
                 }}
                 duration={snackbar.duration}
             >
-                {`${
-                    snackbar.variant
-                        ? variantOptions[snackbar.variant].icon
-                        : ''
-                } ${snackbar.message}`}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Icon
+                        source={variantOptions[snackbar.variant].icon}
+                        size={16}
+                    />
+                    <Text style={{ marginLeft: 10 }}>{snackbar.message}</Text>
+                </View>
             </Snackbar>
         </SnackbarContext.Provider>
     )

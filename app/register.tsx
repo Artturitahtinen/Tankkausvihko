@@ -16,7 +16,7 @@ import {
 import React, { useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { StyleSheet, View } from 'react-native'
-import { Button, Dialog, PaperProvider, Portal, Text } from 'react-native-paper'
+import { Button, Dialog, Portal, Text } from 'react-native-paper'
 
 export default function Register() {
     const form = useForm<RegisterForm>({
@@ -65,7 +65,7 @@ export default function Register() {
     }
 
     return (
-        <PaperProvider>
+        <>
             <View style={styles.container}>
                 <Text variant='headlineSmall'>Rekisteröidy</Text>
                 <View style={styles.inputs}>
@@ -125,7 +125,7 @@ export default function Register() {
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
-        </PaperProvider>
+        </>
     )
 }
 

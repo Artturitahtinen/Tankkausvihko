@@ -8,16 +8,15 @@ import { FuelStatistic, RegisterForm } from '../utils/types';
 
 export const fuelStatisticValidationSchema : ObjectSchema<FuelStatistic> = object({
     id: string().optional(),
-    personId: string().required('Henkilö ID on pakollinen'),
     date: string().required('Päivämäärä on pakollinen'),
     fuelAmount: number()
         .typeError('Tankatun määrän tulee olla luku')
         .positive('Tankatun määrän tulee olla positiivinen luku')
         .required('Tankattu määrä on pakollinen'),
-    odometerReading: number()
-        .typeError('Mittarilukema tulee olla luku')
-        .positive('Mittarilukema tulee olla positiivinen luku')
-        .required('Mittarilukema on pakollinen'),
+    kilometres: number()
+        .typeError('Kilometrien tulee olla luku')
+        .positive('Kilometrien tulee olla positiivinen luku')
+        .required('Kilometrien on pakollinen'),
     price: number()
         .typeError('Hinnan tulee tulee olla luku')
         .positive('Hinnan tulee olla positiivinen luku')

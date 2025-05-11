@@ -1,53 +1,37 @@
-import { TextInputWithError } from '@/components/input/text-input-with-error'
 import { getDate } from '@/utils/date'
 import { FuelStatistic } from '@/utils/types'
-import { fuelStatisticValidationSchema } from '@/validation/validation-schemas'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Temporal } from '@js-temporal/polyfill'
-import React from 'react'
-import {
-    Controller,
-    SubmitErrorHandler,
-    SubmitHandler,
-    useForm,
-} from 'react-hook-form'
+import React, { ReactNode } from 'react'
+import { Controller, SubmitHandler, UseFormReturn } from 'react-hook-form'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import { Appbar, Button } from 'react-native-paper'
+import { Appbar } from 'react-native-paper'
 import { DatePickerInput } from 'react-native-paper-dates'
+import { TextInputWithError } from '../input/text-input-with-error'
 
-export default function AddFuelStatistic() {
-    const form = useForm<FuelStatistic>({
-        defaultValues: {
-            date: new Date().toString(),
-            fuelAmount: undefined,
-            odometerReading: undefined,
-            price: undefined,
-            place: '',
-        },
-        resolver: yupResolver(fuelStatisticValidationSchema),
-    })
+type FuelStatisticFormProps = {
+    form: UseFormReturn<FuelStatistic, any, FuelStatistic>
+    title?: string
+    actionsButtons: ReactNode
+    onSubmit: SubmitHandler<FuelStatistic>
+}
 
-    const { handleSubmit } = form
-
-    const onSubmit: SubmitHandler<FuelStatistic> = (data) =>
-        console.log({ data })
-
-    const onError: SubmitErrorHandler<FuelStatistic> = (errors, e) => {
-        console.log(form.control._formValues)
-        return console.log(errors)
-    }
-
+export const FuelStatisticForm = ({
+    form,
+    title,
+    actionsButtons,
+}: FuelStatisticFormProps) => {
     return (
         <>
-            <Appbar.Header mode='center-aligned'>
-                <Appbar.Content title='Tankkaustiedot' />
-            </Appbar.Header>
+            {title && (
+                <Appbar.Header>
+                    <Appbar.Content title={title} />
+                </Appbar.Header>
+            )}
             <ScrollView
                 contentContainerStyle={{
                     marginTop: 30,
                     marginHorizontal: 20,
                     paddingBottom: 50,
-                    rowGap: 30,
+                    rowGap: 10,
                     alignItems: 'center',
                     justifyContent: 'space-evenly',
                 }}
@@ -63,11 +47,12 @@ export default function AddFuelStatistic() {
                                 locale='fi'
                                 inputMode='start'
                                 withDateFormatInLabel={false}
+                                mode='outlined'
                                 onChange={field.onChange}
                                 onChangeText={field.onChange}
-                                value={getDate(field.value)}
+                                value={getDate(field?.value)}
                                 startYear={2000}
-                                endYear={Temporal.Now.plainDateISO().year}
+                                endYear={new Date().getFullYear()}
                                 startWeekOnMonday
                             />
                             <Text style={styles.error}>
@@ -107,12 +92,12 @@ export default function AddFuelStatistic() {
                     )}
                 />
                 <Controller
-                    name='odometerReading'
+                    name='kilometres'
                     control={form.control}
                     render={({ field, fieldState }) => (
                         <View style={styles.input}>
                             <TextInputWithError
-                                label='Mittarilukema (km)'
+                                label='Kilometrimäärä tankkauksella (km)'
                                 keyboardType='numeric'
                                 value={field.value?.toString() || ''}
                                 onChange={field.onChange}
@@ -121,7 +106,6 @@ export default function AddFuelStatistic() {
                         </View>
                     )}
                 />
-
                 <Controller
                     name='place'
                     control={form.control}
@@ -136,17 +120,8 @@ export default function AddFuelStatistic() {
                         </View>
                     )}
                 />
-                <View style={styles.actionButtons}>
-                    <Button
-                        mode='contained'
-                        onPress={handleSubmit(onSubmit, onError)}
-                    >
-                        Tallenna
-                    </Button>
-                    <Button mode='contained' onPress={() => form.reset()}>
-                        Tyhjennä kentät
-                    </Button>
-                </View>
+
+                <View style={styles.actionButtons}>{actionsButtons}</View>
             </ScrollView>
         </>
     )

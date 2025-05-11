@@ -21,7 +21,7 @@ export default function TabLayout() {
             }}
         >
             <Tabs.Screen
-                name={'home'}
+                name='fuel-statistics/[userId]'
                 options={{
                     title: 'Tankkaukset',
                     tabBarIcon: () => (
@@ -31,11 +31,11 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name={'add-fuel-statistic'}
+                name='add-fuel-statistic/[userId]'
                 options={{
                     title: 'Lisää tankkaus',
                     tabBarIcon: () => <Ionicons name='add' size={32} />,
-                    headerShown: false,
+                    headerShown: true,
                 }}
             />
         </Tabs>

@@ -1,17 +1,24 @@
+import { ReactNode } from "react"
+
 export type FuelStatistic = {
     id?: string
-    personId: string
     place?: string
     date?: string
     fuelAmount: number
-    odometerReading: number
+    kilometres: number
     price: number
 }
 export type RegisterForm = AuthenticationForm
 
-export type LoginForm = AuthenticationForm
-
-type AuthenticationForm = {
+export type AuthenticationForm = {
     email: string
     password: string
+}
+
+export type DeleteDialogProps = {
+    visible: boolean
+    title: ReactNode
+    content: ReactNode
+    actionButtons: ReactNode
+    onDismiss: () => void
 }
